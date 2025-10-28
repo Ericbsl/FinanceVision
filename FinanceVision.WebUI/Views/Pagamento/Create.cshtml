@@ -1,0 +1,113 @@
+@model FinanceVision.Application.ViewModels.PagamentoViewModel
+
+@{
+    ViewData["Title"] = "Novo Pagamento";
+}
+
+<h2>Novo Pagamento</h2>
+
+<form asp-action="Create" method="post" autocomplete="off">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="NumeroDocumento" class="form-label"></label>
+        <input asp-for="NumeroDocumento" class="form-control" />
+        <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="IdEmpresa" class="form-label">Empresa</label>
+            <select asp-for="IdEmpresa" asp-items="@(new SelectList(ViewBag.Empresas, "Id", "NomeRazaoSocial"))" class="form-select">
+                <option value="">Selecione...</option>
+            </select>
+            <span asp-validation-for="IdEmpresa" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="IdBanco" class="form-label">Banco</label>
+            <select asp-for="IdBanco" asp-items="@(new SelectList(ViewBag.Bancos, "Id", "NomeBanco"))" class="form-select">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="IdCategoria" class="form-label">Categoria</label>
+            <select asp-for="IdCategoria" asp-items="@(new SelectList(ViewBag.Categorias, "Id", "NomeCategoria"))" class="form-select">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="IdFormaPgto" class="form-label">Forma de Pagamento</label>
+            <select asp-for="IdFormaPgto" asp-items="@(new SelectList(ViewBag.FormasPagamento, "Id", "Descricao"))" class="form-select">
+                <option value="">Selecione...</option>
+            </select>
+        </div>
+    </div>
+
+    <hr />
+
+    <h5>Parcelas</h5>
+    <div id="parcelasContainer"></div>
+
+    <button type="button" class="btn btn-secondary mt-2" id="btnAddParcela">+ Adicionar Parcela</button>
+
+    <hr />
+    <button type="submit" class="btn btn-success">Salvar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Voltar</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let index = 0;
+        const container = document.getElementById('parcelasContainer');
+        document.getElementById('btnAddParcela').addEventListener('click', () => {
+            const div = document.createElement('div');
+            div.classList.add('row', 'border', 'p-2', 'mb-2', 'rounded');
+
+            div.innerHTML = `
+                <div class="col-md-2">
+                    <label>Parcela</label>
+                    <input name="Parcelas[${index}].NumeroParcela" type="number" class="form-control" min="1" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Valor</label>
+                    <input name="Parcelas[${index}].ValorParcela" type="number" step="0.01" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Vencimento</label>
+                    <input name="Parcelas[${index}].DataVencimento" type="date" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Data Pagamento</label>
+                    <input name="Parcelas[${index}].DataPagamento" type="date" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Valor Pago</label>
+                    <input name="Parcelas[${index}].ValorPago" type="number" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Desconto</label>
+                    <input name="Parcelas[${index}].Desconto" type="number" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Juros</label>
+                    <input name="Parcelas[${index}].Juros" type="number" class="form-control" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Multa</label>
+                    <input name="Parcelas[${index}].Multa" type="number" class="form-control" required />
+                </div>
+                <div class="col-md-3">
+                    <label>Código de Barras</label>
+                    <input name="Parcelas[${index}].CodBarra" type="number" class="form-control" maxlength="48" />
+                </div>
+            `;
+            container.appendChild(div);
+            index++;
+        });
+    </script>
+}

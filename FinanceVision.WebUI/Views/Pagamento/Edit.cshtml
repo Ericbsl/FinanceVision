@@ -1,0 +1,44 @@
+@model FinanceVision.Application.ViewModels.PagamentoViewModel
+
+@{
+    ViewData["Title"] = "Editar Pagamento";
+}
+
+<h2>Editar Pagamento</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="NumeroDocumento" class="form-label"></label>
+        <input asp-for="NumeroDocumento" class="form-control" readonly />
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="IdEmpresa" class="form-label">Empresa</label>
+            <select asp-for="IdEmpresa" asp-items="@(new SelectList(ViewBag.Empresas, "Id", "NomeFantasia"))" class="form-select"></select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="IdBanco" class="form-label">Banco</label>
+            <select asp-for="IdBanco" asp-items="@(new SelectList(ViewBag.Bancos, "Id", "NomeBanco"))" class="form-select"></select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="IdCategoria" class="form-label">Categoria</label>
+            <select asp-for="IdCategoria" asp-items="@(new SelectList(ViewBag.Categorias, "Id", "NomeCategoria"))" class="form-select"></select>
+        </div>
+
+        <div class="col-md-3">
+            <label asp-for="IdFormaPgto" class="form-label">Forma de Pagamento</label>
+            <select asp-for="IdFormaPgto" asp-items="@(new SelectList(ViewBag.FormasPagamento, "Id", "Descricao"))" class="form-select"></select>
+        </div>
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-success">Salvar Alterações</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>
