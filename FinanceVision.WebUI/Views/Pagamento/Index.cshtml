@@ -1,0 +1,46 @@
+@model IEnumerable<FinanceVision.Application.ViewModels.PagamentoViewModel>
+
+@{
+    ViewData["Title"] = "Pagamentos";
+}
+
+<h2 class="mb-3">Lista de Pagamentos</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">+ Novo Pagamento</a>
+
+<table class="table table-striped table-hover align-middle">
+    <thead>
+        <tr>
+            <th>Nº Documento</th>
+            <th>Empresa</th>
+            <th>Banco</th>
+            <th>Categoria</th>
+            <th>Forma Pgto</th>
+            <th>Parcelas</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.NumeroDocumento</td>
+            <td>@item.IdEmpresa</td>
+            <td>@item.IdBanco</td>
+            <td>@item.IdCategoria</td>
+            <td>@item.IdFormaPgto</td>
+            <td>@item.Parcelas?.Count()</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+
+                <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" 
+                    onsubmit="return confirm('Tem certeza que deseja excluir este pagamento? Esta ação não poderá ser desfeita.');">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+                </form>
+            </td>
+        </tr>
+    }
+
+    </tbody>
+</table>

@@ -1,6 +1,25 @@
+using FinanceVision.Infrastructure.Data;
+using FinanceVision.Application.Interfaces;
+using FinanceVision.Application.Services;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllersWithViews();
+
+// DbContext
+builder.Services.AddDbContext<FinanceVisionDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// DI Services
+builder.Services.AddScoped<IEmpresaService, EmpresaService>();
+builder.Services.AddScoped<IBancoService, BancoService>();
+builder.Services.AddScoped<ICategoriaFinanceiraService, CategoriaFinanceiraService>();
+builder.Services.AddScoped<IFormaPagamentoService, FormaPagamentoService>();
+builder.Services.AddScoped<IPagamentoService, PagamentoService>();
+builder.Services.AddScoped<IPagamentoParcelaService, PagamentoParcelaService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

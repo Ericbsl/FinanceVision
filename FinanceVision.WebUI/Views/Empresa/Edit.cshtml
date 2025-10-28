@@ -1,0 +1,41 @@
+@model FinanceVision.Application.ViewModels.EmpresaViewModel
+@{
+    ViewData["Title"] = "Editar Empresa";
+}
+
+<h2>Editar Empresa</h2>
+
+<form asp-action="Edit" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row">
+        <div class="col-md-6">
+            <label asp-for="NomeRazaoSocial" class="form-label"></label>
+            <input asp-for="NomeRazaoSocial" class="form-control" />
+        </div>
+        <div class="col-md-6">
+            <label asp-for="NomeFantasia" class="form-label"></label>
+            <input asp-for="NomeFantasia" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <label asp-for="Cnpj" class="form-label"></label>
+            <input asp-for="Cnpj" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <label asp-for="InscricaoEstadual" class="form-label"></label>
+            <input asp-for="InscricaoEstadual" class="form-control" />
+        </div>
+        <div class="col-md-4">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+    </div>
+
+    <hr />
+    <button type="submit" class="btn btn-success">Salvar Alterações</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+</form>
